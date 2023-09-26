@@ -22,8 +22,13 @@ void insertLL(struct NodeLL* beforeNodeLL, struct NodeLL* insertNodeLL){
   beforeNodeLL->next = insertNodeLL;
   insertNodeLL->next = afterNodeLL;
 }
-void arrToLL(int arrSize, struct NodeLL (*nodeArr)[arrSize], int array[arrSize]){
-  
+void arrToLL(int arrSize, int sizeLL, struct NodeLL (*nodeArr)[sizeLL], int array[arrSize]){
+  if(sizeLL>arrSize){
+    for(int i=0; i<arrSize; i++){
+      (*nodeArr)[i].data = array[i];
+    }
+  }
+  else{ printf("Size of the Linked List is smaller than Size of the Array"); }
 }
 void fillNodeArr(int arrSize, struct NodeLL (*nodeArr)[arrSize]){
   for(int i = 0; i < arrSize; i++){
@@ -33,14 +38,22 @@ void fillNodeArr(int arrSize, struct NodeLL (*nodeArr)[arrSize]){
 }
 
 int main(int argc, char** argv){
-  int nodeArrSize = 10; struct NodeLL nodeArr[nodeArrSize];
+  int nodeArrSize = 10;
+  struct NodeLL nodeArr[nodeArrSize];
+  
+  //Filled Linked List with (1,2,3...).
   fillNodeArr(nodeArrSize, &nodeArr);
+  pushLL(&nodeArr[0], &nodeArr[1]);
+  printLL(&nodeArr[0]);
+  insertLL(&nodeArr[0], &nodeArr[2]);
+  printLL(&nodeArr[0]);
 
-  struct NodeLL* firstNodeLL  = &nodeArr[0];
-  struct NodeLL* secondNodeLL = &nodeArr[1];
-  struct NodeLL* thirdNodeLL  = &nodeArr[2];
-  pushLL(firstNodeLL, secondNodeLL);
-  printLL(firstNodeLL);
-  insertLL(firstNodeLL, thirdNodeLL);
-  printLL(firstNodeLL);
+  //Refilled Linked List with data in array.
+  int arrayInt[] = {10,30,60};
+  int arraySize = sizeof(arrayInt)/sizeof(int);
+  arrToLL(arraySize, nodeArrSize, &nodeArr, arrayInt);
+  pushLL(&nodeArr[0], &nodeArr[1]);
+  printLL(&nodeArr[0]);
+  insertLL(&nodeArr[0], &nodeArr[2]);
+  printLL(&nodeArr[0]);
 }
